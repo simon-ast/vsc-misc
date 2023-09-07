@@ -1,0 +1,47 @@
+#!/bin/bash
+#
+#SBATCH --account=p70652
+#SBATCH --partition=zen3_0512_a100x2
+#SBATCH --qos=p71867_a100dual
+#SBATCH --gres=gpu:1
+#
+#SBATCH -J 
+#SBATCH --ntasks-per-node=1
+#SBATCH --ntasks-per-core=1
+#SBATCH --output=slurm-%x.out
+#
+#SBATCH --time=01-00:00:00
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=simon.schleich@univie.ac.at
+
+
+# USER INPUTS
+PROJECT_NAME=PROJECT
+PARAMETER_FILE=FILE_NAME
+
+####################################################
+# Do not forget to give the job a name in the      #
+# header.                                          #
+#                                                  #
+# Project name should be the top-directory (e.g.   # 
+# wasp39b) above the common run-structure of       # 
+# setup+retrievals folders and observational data. #
+#                                                  #
+# Parameter file name (w/o extension) will also be # 
+# used to name the output file.                    #
+####################################################
+
+
+#########################################
+#    AMATEUR BASH-SCRIPTING AND         # 
+#       SLURM-HANDLING AHEAD.           #
+#    MOVE BELOW AT YOUR OWN RISK!       #
+#########################################
+
+# GLOBAL PARAMETERS
+TAUREX_TOPDIR=$DATA/TauREx
+
+
+# EXECUTE CODE HERE
+cd $DATA/TauREx/projects/WASP39b_NIRSpec_PRISM/TESC
+taurex -i setups/$PARAMETER_FILE.par -o retrievals/$PARAMETER_FILE.h5 --retrieval
